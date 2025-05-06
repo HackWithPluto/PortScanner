@@ -22,7 +22,6 @@ Port Scanner By.
 """
 
 def print_shubh_art():
-    """Prints SHUBH art in red color"""
     for char in shubh_art:
         sys.stdout.write(Colors.RED + char)
         sys.stdout.flush()
@@ -107,11 +106,11 @@ def check_target_reachability(target):
 
 def print_help():
     try:
-        with open("help.txt", "r") as file:
+        with open("README.md", "r") as file:
             print("\n Help File Contents:\n")
             print(file.read())
     except FileNotFoundError:
-        print(" help.txt not found in the current directory.")
+        print(" help not found .")
 
 def main():
     while True:
