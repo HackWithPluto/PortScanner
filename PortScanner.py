@@ -13,16 +13,16 @@ class Colors:
 
 # SHUBH ASCII art in red color
 shubh_art = r"""
-Port Scanner By.
- ____   _   _  _   _  ____   _   _ 
-/ ___| | | | || | | || __ ) | | | |
-\___ \ | |_| || | | ||  _ \ | |_| |
- ___) ||  _  || |_| || |_) ||  _  |
-|____/ |_| |_| \___/ |____/ |_| |_| 
+ ____   _      _   _  _____   ___  
+|  _ \ | |    | | | ||_   _| / _ \ 
+| |_) || |    | | | |  | |  | | | |
+|  __/ | |___ | |_| |  | |  | |_| |
+|_|    |_____| \___/   |_|   \___/ 
+                 By shubham Dongare
 """
 
 def print_shubh_art():
-    """Prints SHUBH art in red color"""
+    
     for char in shubh_art:
         sys.stdout.write(Colors.RED + char)
         sys.stdout.flush()
@@ -31,7 +31,7 @@ def print_shubh_art():
 
 def pause_and_return():
     input("Press Enter to return to the Main Menu...")
-    # Don't clear the screen here
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 class TCPPortScanner:
     def __init__(self):
@@ -61,7 +61,7 @@ class TCPPortScanner:
         self.scan_stats['start_time'] = time.time()
         self.scan_stats['ports_scanned'] = len(ports)
 
-        print("\n Scanning", end="")
+        print("\nScanning", end="")
         for _ in range(10):
             sys.stdout.write(".")
             sys.stdout.flush()
@@ -71,14 +71,14 @@ class TCPPortScanner:
             executor.map(lambda port: self.tcp_connect_scan(target, port), ports)
 
     def print_results(self):
-        print("\n Scan Results:")
-        print(f" Open ports: {sorted(self.open_ports)}")
-        print(f" Closed ports: {sorted(self.closed_ports)}")
-        print(f" Filtered ports: {sorted(self.filtered_ports)}")
+        print("\nScan Results:")
+        print(f"Open ports: {sorted(self.open_ports)}")
+        print(f"Closed ports: {sorted(self.closed_ports)}")
+        print(f"Filtered ports: {sorted(self.filtered_ports)}")
 
         duration = time.time() - self.scan_stats['start_time']
-        print(f" Scan completed in {duration:.2f} seconds")
-        print(f" Scanned {self.scan_stats['ports_scanned']} ports")
+        print(f"Scan completed in {duration:.2f} seconds")
+        print(f"Scanned {self.scan_stats['ports_scanned']} ports")
 
 def parse_ports(port_str):
     ports = []
@@ -96,42 +96,41 @@ def check_target_reachability(target):
     try:
         response = subprocess.call(["ping", param, "1", target], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         if response == 0:
-            print(f" Target {target} is reachable.")
+            print(f"Target {target} is reachable.")
             return True
         else:
-            print(f" Target {target} is not reachable.")
+            print(f"Target {target} is not reachable.")
             return False
     except Exception as e:
-        print(f" An error occurred while checking reachability: {e}")
+        print(f"An error occurred while checking reachability: {e}")
         return False
 
 def print_help():
     try:
         with open("README.md", "r") as file:
-            print("\n Help File Contents:\n")
+            print("\nHelp File Contents:\n")
             print(file.read())
     except FileNotFoundError:
-        print(" help not found.")
+        print("help not found.")
 
 def main():
-    print_shubh_art()  # Display only once at the start
-    
     while True:
-        print("---------Main Menu---------")
+        print_shubh_art()
+        print("--------Main Menu--------")
         print("1: Scan Ports")
         print("2: Help")
         print("3: Exit")
-        choice = input("Enter your choice (1-3): ").strip()
+        choice = input(">>> Enter your choice (1-3): ").strip()
 
         if choice == '1':
-            target = input("Enter the target IP or hostname: ")
+            target = input(">>> Enter the target IP or hostname: ")
 
             if not check_target_reachability(target):
-                print("Exiting... Target is not reachable.")
+                print(">>> Exiting... Target is not reachable.")
                 pause_and_return()
                 continue
 
-            ports_input = input("Enter ports to scan (e.g., 80,443 or 1-1000): ")
+            ports_input = input(">>> Enter ports to scan (e.g., 80,443 or 1-1000): ")
             if not ports_input:
                 print("No ports entered. Exiting...")
                 pause_and_return()
@@ -144,7 +143,7 @@ def main():
                 pause_and_return()
                 continue
 
-            threads = input("Enter the number of threads (default: 100): ")
+            threads = input(">>> Enter the number of threads (default: 100): ")
             threads = int(threads) if threads else 100
 
             scanner = TCPPortScanner()
@@ -163,9 +162,6 @@ def main():
         else:
             print("Invalid choice. Try again.")
             pause_and_return()
-
-    # Clear screen only once when exiting the program
-    os.system('cls' if os.name == 'nt' else 'clear')
 
 if __name__ == "__main__":
     main()
