@@ -22,6 +22,7 @@ Port Scanner By.
 """
 
 def print_shubh_art():
+    """Prints SHUBH art in red color"""
     for char in shubh_art:
         sys.stdout.write(Colors.RED + char)
         sys.stdout.flush()
@@ -30,7 +31,7 @@ def print_shubh_art():
 
 def pause_and_return():
     input("Press Enter to return to the Main Menu...")
-    os.system('cls' if os.name == 'nt' else 'clear')
+    # Don't clear the screen here
 
 class TCPPortScanner:
     def __init__(self):
@@ -110,11 +111,12 @@ def print_help():
             print("\n Help File Contents:\n")
             print(file.read())
     except FileNotFoundError:
-        print(" help not found .")
+        print(" help not found.")
 
 def main():
+    print_shubh_art()  # Display only once at the start
+    
     while True:
-        print_shubh_art()
         print("---------Main Menu---------")
         print("1: Scan Ports")
         print("2: Help")
@@ -161,6 +163,9 @@ def main():
         else:
             print("Invalid choice. Try again.")
             pause_and_return()
+
+    # Clear screen only once when exiting the program
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 if __name__ == "__main__":
     main()
