@@ -27,4 +27,5 @@ Ensure the target system is reachable before scanning.
 Scanning ports without permission may be illegal. Use this tool responsibly.
 
 Developed by: shubham dongare
+
 For educational purposes only
